@@ -1,0 +1,17 @@
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+
+.report{
+    padding-top: 50px;
+}
+.report >h1{
+    color: #fff;
+}
+.form > span{
+    color: #696ff6;
+    font-size: 15px;
+    font-family: "Poppins", sans-serif;
+    padding: 0;
+    
+}
+
