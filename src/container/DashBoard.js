@@ -24,9 +24,9 @@ const DashBoard = ({ contract }) => {
     setShow(true);
   };
   const [loading, setLoading] = useState(true);
-  const apiKey = "0a245a6e2144d20c5710";
+  const apiKey = "75be37fc98b6b6c9f01b";
   const apiSecret =
-    "fbd8aaf8b0bf36829293b2e28ccd709ac796b8ff152d375eb3a6035d03196c5f";
+    "22c528735eacaa3971b53c9de71072af4b4a587a6959246974fba7babfaa028f";
   const loadPosts = async () => {
     // Get user's address
     setShow(false);
