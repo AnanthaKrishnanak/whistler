@@ -10,9 +10,9 @@ const App = ({ contract }) => {
   const [avatar, setAvatar] = useState(null);
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(true);
-  const apiKey = "75be37fc98b6b6c9f01b";
+  const apiKey = "fd8bff84becd3aba34f7";
   const apiSecret =
-    "22c528735eacaa3971b53c9de71072af4b4a587a6959246974fba7babfaa028f";
+    "ff71dd4a580f61ba90b921a058be513e5d0262aaeac7b3f7105f142fe0fa5214";
   const loadMyNFTs = async () => {
     // Get users nft ids
     const results = await contract.getMyNfts();
@@ -23,7 +23,7 @@ const App = ({ contract }) => {
         const uri = await contract.tokenURI(i);
         // fetch nft metadata
 
-        const response = await fetch(uri,);
+        const response = await fetch(uri);
        console.log(response)
         const m = await response.json();
         const metadata = await JSON.parse(m);
@@ -62,7 +62,9 @@ const App = ({ contract }) => {
           method: "post",
           url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
           data: formData,
-          headers: {
+          headers: { 'Access-Control-Allow-Origin': '*' , "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
+          "Access-Control-Allow-Headers":
+            "Origin, X-Requested-With, Content-Type, Accept",
             pinata_api_key: apiKey,
             pinata_secret_api_key: apiSecret,
             "Content-Type": "multipart/form-data",
@@ -89,7 +91,9 @@ const App = ({ contract }) => {
 
       const apiUrl = "https://api.pinata.cloud/pinning/pinJSONToIPFS";
       const headers = {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json", 'Access-Control-Allow-Origin': '*' , "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
+        "Access-Control-Allow-Headers":
+          "Origin, X-Requested-With, Content-Type, Accept",
         pinata_api_key: apiKey,
         pinata_secret_api_key: apiSecret,
       };

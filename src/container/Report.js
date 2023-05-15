@@ -19,9 +19,9 @@ function Report({ contract }) {
   const [suggestion, setSuggestion] = useState("");
   const [proof, setProof] = useState("");
   const [loading, setLoading] = useState(false);
-  const apiKey = "75be37fc98b6b6c9f01b";
+  const apiKey = "fd8bff84becd3aba34f7";
   const apiSecret =
-    "22c528735eacaa3971b53c9de71072af4b4a587a6959246974fba7babfaa028f";
+    "ff71dd4a580f61ba90b921a058be513e5d0262aaeac7b3f7105f142fe0fa5214";
   const uploadToIPFS = async (event) => {
     event.preventDefault();
     const fileImg = event.target.files[0];
@@ -34,7 +34,9 @@ function Report({ contract }) {
           method: "post",
           url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
           data: formData,
-          headers: {
+          headers: {'Access-Control-Allow-Origin': '*' , "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
+          "Access-Control-Allow-Headers":
+            "Origin, X-Requested-With, Content-Type, Accept",
             pinata_api_key: apiKey,
             pinata_secret_api_key: apiSecret,
             "Content-Type": "multipart/form-data",
@@ -71,7 +73,9 @@ function Report({ contract }) {
       console.log(myJSON);
 
       const apiUrl = "https://api.pinata.cloud/pinning/pinJSONToIPFS";
-      const headers = {
+      const headers = {'Access-Control-Allow-Origin': '*' , "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
+      "Access-Control-Allow-Headers":
+        "Origin, X-Requested-With, Content-Type, Accept",
         "Content-Type": "application/json",
         pinata_api_key: apiKey,
         pinata_secret_api_key: apiSecret,

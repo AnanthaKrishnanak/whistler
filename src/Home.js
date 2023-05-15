@@ -12,9 +12,9 @@ const Home = ({ contract }) => {
   const [loading, setLoading] = useState(true);
   const [url, setUrl] = useState("");
 
-  const apiKey = "75be37fc98b6b6c9f01b";
+  const apiKey = "fd8bff84becd3aba34f7";
   const apiSecret =
-    "22c528735eacaa3971b53c9de71072af4b4a587a6959246974fba7babfaa028f";
+    "ff71dd4a580f61ba90b921a058be513e5d0262aaeac7b3f7105f142fe0fa5214";
   const loadPosts = async () => {
     // Get user's address
     let address = await contract.signer.getAddress();
@@ -29,9 +29,11 @@ const Home = ({ contract }) => {
     let posts = await Promise.all(
       results.map(async (i) => {
         // use hash to fetch the post's metadata stored on ipfs
-        const response = await fetch(`https://gateway.pinata.cloud/ipfs/${i.hash}`);
+        const response = await fetch(
+          `https://gateway.pinata.cloud/ipfs/${i.hash}`
+        );
 
-        console.log(response)
+        console.log(response);
         const m = await response.json();
         const metadataPost = await JSON.parse(m);
         console.log(metadataPost);
@@ -81,10 +83,15 @@ const Home = ({ contract }) => {
           method: "post",
           url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
           data: formData,
+
           headers: {
             pinata_api_key: apiKey,
+            "Access-Control-Allow-Origin": "*",
             pinata_secret_api_key: apiSecret,
             "Content-Type": "multipart/form-data",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
+            "Access-Control-Allow-Headers":
+              "Origin, X-Requested-With, Content-Type, Accept",
           },
         });
 
@@ -116,6 +123,9 @@ const Home = ({ contract }) => {
       const headers = {
         "Content-Type": "application/json",
         pinata_api_key: apiKey,
+        "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
+        "Access-Control-Allow-Headers":
+          "Origin, X-Requested-With, Content-Type, Accept",
         pinata_secret_api_key: apiSecret,
       };
 
@@ -256,7 +266,7 @@ const Home = ({ contract }) => {
                     <img
                       width="400px"
                       height="200px"
-                      style={{ borderRadius: "10px", backgroundColor:"white" }}
+                      style={{ borderRadius: "10px", backgroundColor: "white" }}
                       src={post.url}
                     />
                   </Card.Body>

@@ -24,9 +24,9 @@ const DashBoard = ({ contract }) => {
     setShow(true);
   };
   const [loading, setLoading] = useState(true);
-  const apiKey = "75be37fc98b6b6c9f01b";
+  const apiKey = "fd8bff84becd3aba34f7";
   const apiSecret =
-    "22c528735eacaa3971b53c9de71072af4b4a587a6959246974fba7babfaa028f";
+    "ff71dd4a580f61ba90b921a058be513e5d0262aaeac7b3f7105f142fe0fa5214";
   const loadPosts = async () => {
     // Get user's address
     setShow(false);
@@ -97,54 +97,7 @@ const DashBoard = ({ contract }) => {
       loadPosts();
     }
   });
-  const uploadPost = async () => {
-    if (!post) return;
-    let hash;
-    // Upload post to IPFS
-    try {
-      const jsonString = JSON.stringify({ post });
-      console.log(jsonString);
 
-      const apiUrl = "https://api.pinata.cloud/pinning/pinJSONToIPFS";
-      const headers = {
-        "Content-Type": "application/json",
-        pinata_api_key: apiKey,
-        pinata_secret_api_key: apiSecret,
-      };
-
-      const data = {
-        pinataContent: jsonString,
-      };
-
-      await axios
-        .post(apiUrl, data, { headers })
-        .then(async (response) => {
-          console.log(
-            `JSON string uploaded successfully. IPFS hash: ${response.data.IpfsHash}`
-          );
-
-          setLoading(true);
-          await (await contract.uploadPost(response.data.IpfsHash)).wait();
-        })
-        .catch((error) => {
-          console.error("Error uploading JSON string:", error.message);
-        });
-    } catch (error) {
-      window.alert("ipfs image upload error: ", error);
-    }
-    // upload post to blockchain
-
-    loadPosts();
-  };
-  const tip = async (post) => {
-    // tip post owner
-    await (
-      await contract.tipPostOwner(post.id, {
-        postue: ethers.utils.parseEther("0.1"),
-      })
-    ).wait();
-    loadPosts();
-  };
   if (loading)
     return (
       <div className="text-center">
