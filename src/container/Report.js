@@ -1,12 +1,10 @@
 import React from "react";
 import { Row, Form, Button, Card, ListGroup, Col } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import { ethers } from "ethers";
+import { apiKey, apiSecret } from "../constants/constants";
 import "./Report.css";
 import axios from "axios";
 function Report({ contract }) {
-  const [hasProfile, setHasProfile] = useState(false);
-  const [report, setReport] = useState("");
   const [organization, setOrganization] = useState("");
   const [category, setCategory] = useState("");
   const [relation, setRelation] = useState("");
@@ -19,9 +17,7 @@ function Report({ contract }) {
   const [suggestion, setSuggestion] = useState("");
   const [proof, setProof] = useState("");
   const [loading, setLoading] = useState(false);
-  const apiKey = "fd8bff84becd3aba34f7";
-  const apiSecret =
-    "ff71dd4a580f61ba90b921a058be513e5d0262aaeac7b3f7105f142fe0fa5214";
+
   const uploadToIPFS = async (event) => {
     event.preventDefault();
     const fileImg = event.target.files[0];
@@ -34,9 +30,11 @@ function Report({ contract }) {
           method: "post",
           url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
           data: formData,
-          headers: {'Access-Control-Allow-Origin': '*' , "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
-          "Access-Control-Allow-Headers":
-            "Origin, X-Requested-With, Content-Type, Accept",
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
+            "Access-Control-Allow-Headers":
+              "Origin, X-Requested-With, Content-Type, Accept",
             pinata_api_key: apiKey,
             pinata_secret_api_key: apiSecret,
             "Content-Type": "multipart/form-data",
@@ -73,9 +71,11 @@ function Report({ contract }) {
       console.log(myJSON);
 
       const apiUrl = "https://api.pinata.cloud/pinning/pinJSONToIPFS";
-      const headers = {'Access-Control-Allow-Origin': '*' , "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
-      "Access-Control-Allow-Headers":
-        "Origin, X-Requested-With, Content-Type, Accept",
+      const headers = {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
+        "Access-Control-Allow-Headers":
+          "Origin, X-Requested-With, Content-Type, Accept",
         "Content-Type": "application/json",
         pinata_api_key: apiKey,
         pinata_secret_api_key: apiSecret,
@@ -113,11 +113,9 @@ function Report({ contract }) {
       </div>
     );
   return (
-    <div className="row report">
+    <div className=" report">
       <main
-        role="main"
-        className="col-lg-12 mx-auto"
-        style={{ maxWidth: "1000px" }}
+        style={{ width: "800px",  }}
       >
         {" "}
         <h1 style={{ marginBottom: "30px" }}>Want to speak up for an issue?</h1>
@@ -130,6 +128,7 @@ function Report({ contract }) {
               size="lg"
               required
               type="text"
+              className="input"
             />
             <span>Category</span>
             <Form.Control
@@ -138,6 +137,7 @@ function Report({ contract }) {
               size="lg"
               required
               type="text"
+              className="input"
             />
             <span>Relationship</span>
             <Form.Control
@@ -146,6 +146,7 @@ function Report({ contract }) {
               size="lg"
               required
               type="text"
+              className="input"
             />
             <span>Encounter</span>
             <Form.Control
@@ -162,6 +163,7 @@ function Report({ contract }) {
               size="lg"
               required
               type="text"
+              className="input"
             />
             <span>Location</span>
             <Form.Control
@@ -170,6 +172,7 @@ function Report({ contract }) {
               size="lg"
               required
               type="text"
+              className="input"
             />
             <span>Organization ID</span>
             <Form.Control
@@ -178,6 +181,7 @@ function Report({ contract }) {
               size="lg"
               required
               type="text"
+              className="input"
             />
             <span>Period</span>
 
@@ -187,6 +191,7 @@ function Report({ contract }) {
               size="lg"
               required
               type="text"
+              className="input"
             />
             <span>Incident information</span>
 
@@ -197,6 +202,7 @@ function Report({ contract }) {
               required
               type="text"
               as="textarea"
+              className="input"
             />
             <span>Disciplinary action requested</span>
 
@@ -207,6 +213,7 @@ function Report({ contract }) {
               required
               type="text"
               as="textarea"
+              className="input"
             />
             <span>Proof</span>
 
@@ -215,10 +222,11 @@ function Report({ contract }) {
               type="file"
               required
               name="file"
+              className="input"
               style={{ marginBottom: "50px" }}
               onChange={uploadToIPFS}
             />
-            <div className="d-grid px-0" style={{ borderRadius: "10px" }}>
+           
               <Button
                 onClick={uploadReportToIPFS}
                 variant="primary"
@@ -230,10 +238,9 @@ function Report({ contract }) {
               >
                 Report issue
               </Button>
-            </div>
+
           </Row>
         </div>
-        <div style={{ height: "100px" }}></div>
       </main>
     </div>
   );

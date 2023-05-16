@@ -7,11 +7,14 @@
  align-items: center;
  justify-content:center;
  font-family: "Poppins", sans-serif;
+ margin-left: 400px;
+ width: 800px;
+ margin-top: 150px;
 
 }
 .text-box > h1{
     font-weight: bold;
-    font-size: 70px;
+    font-size: 50px;
     padding-left: 150px;
     padding-right: 200px;
 }
@@ -23,6 +26,7 @@
 }
 .nopost >img{
     padding-right: 100px;
+    height: 400px;
 }
 span{
     color: #3808f5;

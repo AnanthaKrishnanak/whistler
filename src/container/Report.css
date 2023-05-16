@@ -1,17 +1,30 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
-
+body{
+    background-color: #f6f3f3;
+}
 .report{
-    padding-top: 50px;
+    margin-top: 120px;
+   margin-left: 400px;  
+   background-color: #ffff;
+   padding: 50px;
+   padding-left: 100px;
+   border-radius: 25px;
+   margin-bottom: 50px;
+   margin-right: 30px;
+   box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.38)
 }
 .report >h1{
     color: #fff;
 }
 .form > span{
-    color: #696ff6;
+    color: black;
     font-size: 15px;
     font-family: "Poppins", sans-serif;
     padding: 0;
     
 }
 
+.input{
+    width: 800px;
+}

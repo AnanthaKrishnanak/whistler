@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
-import { ethers } from "ethers";
+
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import NoPost from "../componetns/NoPost";
-import PieChart from "../componetns/PieChart";
+
 import "./DashBoard.css";
 import Details from "../componetns/Details";
 const DashBoard = ({ contract }) => {
@@ -18,15 +16,13 @@ const DashBoard = ({ contract }) => {
   const [post, setPost] = useState("");
   const [address, setAddress] = useState("");
   const [show, setShow] = useState(false);
-  const [content, setContent] = useState("")
+  const [content, setContent] = useState("");
   const setDetails = (s) => {
-    setContent(s)
+    setContent(s);
     setShow(true);
   };
   const [loading, setLoading] = useState(true);
-  const apiKey = "fd8bff84becd3aba34f7";
-  const apiSecret =
-    "ff71dd4a580f61ba90b921a058be513e5d0262aaeac7b3f7105f142fe0fa5214";
+
   const loadPosts = async () => {
     // Get user's address
     setShow(false);
@@ -109,14 +105,29 @@ const DashBoard = ({ contract }) => {
   if (show) {
     return (
       <div>
-      <Details content={content}></Details>
-      <button onClick={()=>setShow(false)} style={{width:"400px", height:"50px", borderRadius:"10px", backgroundColor:"#3808f5", border:"none",marginLeft:"20px", marginBottom:"100px"}}>Go back</button>
+        <Details content={content}></Details>
+        <button
+          onClick={() => setShow(false)}
+          style={{
+            width: "400px",
+            height: "50px",
+            borderRadius: "10px",
+            backgroundColor: "#3808f5",
+            border: "none",
+            marginLeft: "440px",
+            marginBottom: "100px",
+          }}
+        >
+          Go back
+        </button>
       </div>
-   );
+    );
   }
   return (
-    <div>
-      <h3 style={{paddingLeft:"60px", paddingTop:"30px"}}>Cases reported</h3>
+    <div >
+      <h3 style={{ paddingLeft: "60px", paddingTop: "30px" }}>
+        Cases reported
+      </h3>
       {posts.length > 0 ? (
         <div className="dash">
           <table class="styled-table">
@@ -140,7 +151,7 @@ const DashBoard = ({ contract }) => {
                     <td>{post.orgid}</td>
                     <td>{post.location}</td>
                     <td>
-                      <button onClick={()=>setDetails(post)}>View</button>
+                      <button onClick={() => setDetails(post)}>View</button>
                     </td>
                   </tr>
                 );

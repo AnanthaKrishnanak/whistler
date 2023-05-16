@@ -3,7 +3,10 @@ import { ethers } from "ethers";
 import { Row, Form, Button, Card, ListGroup } from "react-bootstrap";
 import axios from "axios";
 import NoPost from "./componetns/NoPost";
-import { keccak256 } from "ethers/lib/utils";
+import { apiKey, apiSecret } from "./constants/constants";
+import { FaRegThumbsUp, FaRegCommentAlt } from "react-icons/fa";
+import Comments from "./componetns/comments/Comment";
+import camera from "./assets/image.png";
 const Home = ({ contract }) => {
   const [posts, setPosts] = useState("");
   const [hasProfile, setHasProfile] = useState(false);
@@ -11,10 +14,24 @@ const Home = ({ contract }) => {
   const [address, setAddress] = useState("");
   const [loading, setLoading] = useState(true);
   const [url, setUrl] = useState("");
+  const [commentOpen, setCommentOpen] = useState(false);
+  const uploadComment = async () => {
+    console.log('sssssss')
+    await (await contract.postComment(0,"test",'0x2546bcd3c84621e976d8185a91a922ae77ecec30')).wait();
+    console.log('sssssss')
 
-  const apiKey = "fd8bff84becd3aba34f7";
-  const apiSecret =
-    "ff71dd4a580f61ba90b921a058be513e5d0262aaeac7b3f7105f142fe0fa5214";
+  };
+  const loadComments = async () => {
+    // Get user's address
+    console.log('sdddddddddddddd')
+    let r = await contract.viewCount(0).wait();
+    console.log(r)
+    let res = await contract.viewComment(0,0);
+    console.log(res)
+
+    // Fetch metadata of each post and add that to post object.
+  };
+
   const loadPosts = async () => {
     // Get user's address
     let address = await contract.signer.getAddress();
@@ -29,13 +46,19 @@ const Home = ({ contract }) => {
     let posts = await Promise.all(
       results.map(async (i) => {
         // use hash to fetch the post's metadata stored on ipfs
+        const headers = {
+          "Content-Type": "application/json",
+          pinata_api_key: apiKey,
+
+          pinata_secret_api_key: apiSecret,
+        };
         const response = await fetch(
           `https://gateway.pinata.cloud/ipfs/${i.hash}`
         );
 
         console.log(response);
-        const m = await response.json();
-        const metadataPost = await JSON.parse(m);
+        const q = await response.json();
+        const metadataPost = await JSON.parse(q);
         console.log(metadataPost);
         var keyCount = Object.keys(metadataPost).length;
 
@@ -45,8 +68,8 @@ const Home = ({ contract }) => {
         const uri = await contract.tokenURI(nftId);
         // fetch nft profile metadata
         const r = await fetch(uri);
-        const prof = await r.json();
-        const metadataProfile = await JSON.parse(prof);
+        const m = await r.json();
+        const metadataProfile = await JSON.parse(m);
 
         // define author object
         const author = {
@@ -123,7 +146,8 @@ const Home = ({ contract }) => {
       const headers = {
         "Content-Type": "application/json",
         pinata_api_key: apiKey,
-        "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
         "Access-Control-Allow-Headers":
           "Origin, X-Requested-With, Content-Type, Accept",
         pinata_secret_api_key: apiSecret,
@@ -165,47 +189,48 @@ const Home = ({ contract }) => {
   if (loading)
     return (
       <div className="text-center">
-        <main style={{ padding: "1rem 0" }}>
+        <main style={{ marginTop: "400px", marginLeft: "400px" }}>
           <h2>Loading...</h2>
         </main>
       </div>
     );
   return (
-    <div className="container-fluid mt-5">
+    <div className="container-fluid mt-5" style={{ marginLeft: "100px" }}>
       {hasProfile ? (
         <div className="row">
-          <main
-            role="main"
-            className="col-lg-12 mx-auto"
-            style={{ maxWidth: "1000px" }}
-          >
-            <div
-              className="content mx-auto"
-              style={{ width: "700px", paddingLeft: "20px" }}
-            >
-              <Row className="g-4">
-                <Form.Control
+          <div className="share" style={{ width: "750px", marginTop: "100px" }}>
+            <div className="container">
+              <div className="top">
+                <input
+                  type="text"
+                  placeholder={`What's on your mind?`}
                   onChange={(e) => setPost(e.target.value)}
-                  size="lg"
-                  required
-                  placeholder="Whats happening?"
-                  as="textarea"
-                  style={{ height: "150px" }}
                 />
-                <Form.Control
-                  type="file"
-                  required
-                  name="file"
-                  onChange={uploadToIPFS}
-                />
-                <div className="d-grid px-0">
-                  <Button onClick={uploadPost} variant="primary" size="lg">
-                    Post!
-                  </Button>
+              </div>
+              <hr />
+              <div className="bottom">
+                <div className="left">
+                  <input type="file" id="file" style={{ display: "none" }} />
+                  <label htmlFor="file" onChange={uploadToIPFS}>
+                    <div className="item">
+                      <img src={camera} alt="" className="icon" />
+                      <Form.Control
+                        type="file"
+                        required
+                        name="file"
+                        onChange={uploadToIPFS}
+                        style={{ textDecoration: "none" }}
+                      />
+                    </div>
+                  </label>
                 </div>
-              </Row>
+                <div className="right">
+                  <button onClick={uploadPost}>Share</button>
+                </div>
+                <button onClick={loadComments}>test</button>
+              </div>
             </div>
-          </main>
+          </div>
         </div>
       ) : (
         <NoPost></NoPost>
@@ -224,72 +249,80 @@ const Home = ({ contract }) => {
                   border="primary"
                   style={{
                     width: "750px",
-                    backgroundColor: "#fff",
+                    backgroundColor: "#fffff2",
                     border: "none",
-                    borderRadius: "10px",
+                    borderRadius: "20px",
                     height: "100%",
+                    padding: "20px",
                   }}
                 >
-                  <Card.Header
+                  <div
                     style={{
                       backgroundColor: "transparent",
                       width: "700px",
                       display: "flex",
-                      justifyContent: "space-evenly",
                       alignItems: "center",
                     }}
                   >
                     <img
-                      className="mr-2"
+                      className="mr-2 profile-image"
                       width="100px"
                       height="100px"
                       style={{ borderRadius: "50%" }}
                       src={post.author.avatar}
                     />
-                    <small
-                      className="ms-2 me-auto d-inline font"
-                      style={{ color: "black" }}
-                    >
-                      {post.author.username}
-                    </small>
-                    <small
-                      className="mt-1 float-end d-inline font"
-                      style={{ color: "#3808f5", fontWeight: "Bold" }}
-                    >
-                      {post.author.address}
-                    </small>
-                  </Card.Header>
+                    <div className="details">
+                      <span className="name"> {post.author.username}</span>
+                      <span className="date"> {post.author.address}</span>
+                    </div>
+                  </div>
                   <Card.Body color="secondary">
                     <Card.Text className="post__content font">
                       {post.content}
                     </Card.Text>
-                    <img
-                      width="400px"
-                      height="200px"
-                      style={{ borderRadius: "10px", backgroundColor: "white" }}
-                      src={post.url}
-                    />
+                    <img className="post-image" src={post.url} />
                   </Card.Body>
-                  <Card.Footer className="list-group-item">
+                  <div
+                    className="list-group-item"
+                    style={{
+                      display: "flex",
+                      alignContent: "center",
+                      justifyContent: "space-evenly",
+                    }}
+                  >
                     <div className="d-inline mt-auto float-start font">
-                      Total Support:{" "}
-                      <span style={{ color: "#3808f5", fontWeight: "Bold" }}>
+                      <FaRegThumbsUp></FaRegThumbsUp>
+                      <span
+                        style={{
+                          color: "#3808f5",
+                          fontWeight: "Bold",
+                          paddingLeft: "10px",
+                          marginRight: "20px",
+                        }}
+                      >
                         {ethers.utils.formatEther(post.tipAmount)} ETH{" "}
                       </span>
                     </div>
+                    <div>
+                      <div
+                        className="item"
+                        onClick={() => setCommentOpen(!commentOpen)}
+                      >
+                        <FaRegCommentAlt />
+                        Comments
+                      </div>
+                    </div>
                     {address === post.author.address || !hasProfile ? null : (
-                      <div className="d-inline float-end font">
-                        <Button
-                          onClick={() => tip(post)}
-                          className="px-0 py-0 font-size-16"
-                          size="md"
-                          style={{ width: "200px", height: "40px" }}
-                        >
-                          Up this post for 0.1 ETH
-                        </Button>
+                      <div
+                        className="d-inline float-end font"
+                        onClick={() => tip(post)}
+                      >
+                        <FaRegThumbsUp></FaRegThumbsUp>{" "}
+                        <span> post for 0.1 ETH</span>
                       </div>
                     )}
-                  </Card.Footer>
+                  </div>
+                  {!commentOpen ? null : <Comments contract={contract} ></Comments>}
                 </Card>
               </div>
             );

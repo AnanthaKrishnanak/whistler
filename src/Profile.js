@@ -1,8 +1,22 @@
 import { useState, useEffect } from "react";
+import {
+  MDBBtn,
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+  MDBCard,
+  MDBCardBody,
+  MDBCardImage,
+  MDBInput,
+  MDBIcon,
+  MDBCheckbox,
+} from "mdb-react-ui-kit";
 
 import axios from "axios";
 import { Row, Form, Button, Card, ListGroup, Col } from "react-bootstrap";
-
+import { apiKey, apiSecret } from "./constants/constants";
+import "./index.css";
+import image from "./assets/profile.jpg";
 
 const App = ({ contract }) => {
   const [profile, setProfile] = useState("");
@@ -10,9 +24,7 @@ const App = ({ contract }) => {
   const [avatar, setAvatar] = useState(null);
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(true);
-  const apiKey = "fd8bff84becd3aba34f7";
-  const apiSecret =
-    "ff71dd4a580f61ba90b921a058be513e5d0262aaeac7b3f7105f142fe0fa5214";
+
   const loadMyNFTs = async () => {
     // Get users nft ids
     const results = await contract.getMyNfts();
@@ -23,11 +35,10 @@ const App = ({ contract }) => {
         const uri = await contract.tokenURI(i);
         // fetch nft metadata
 
-        const response = await fetch(uri);
-       console.log(response)
-        const m = await response.json();
-        const metadata = await JSON.parse(m);
-        console.log(metadata)
+        const response = await axios.get(uri);
+        console.log(response.data);
+        const metadata = await JSON.parse(response.data);
+        console.log(metadata);
 
         return {
           id: i,
@@ -41,13 +52,11 @@ const App = ({ contract }) => {
     getProfile(nfts);
   };
   const getProfile = async (nfts) => {
-
     const address = await contract.signer.getAddress();
     const id = await contract.profiles(address);
     const profile = nfts.find((i) => i.id.toString() === id.toString());
     setProfile(profile);
     setLoading(false);
-
   };
 
   const uploadToIPFS = async (event) => {
@@ -62,9 +71,7 @@ const App = ({ contract }) => {
           method: "post",
           url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
           data: formData,
-          headers: { 'Access-Control-Allow-Origin': '*' , "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
-          "Access-Control-Allow-Headers":
-            "Origin, X-Requested-With, Content-Type, Accept",
+          headers: {
             pinata_api_key: apiKey,
             pinata_secret_api_key: apiSecret,
             "Content-Type": "multipart/form-data",
@@ -91,7 +98,9 @@ const App = ({ contract }) => {
 
       const apiUrl = "https://api.pinata.cloud/pinning/pinJSONToIPFS";
       const headers = {
-        "Content-Type": "application/json", 'Access-Control-Allow-Origin': '*' , "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
         "Access-Control-Allow-Headers":
           "Origin, X-Requested-With, Content-Type, Accept",
         pinata_api_key: apiKey,
@@ -146,62 +155,145 @@ const App = ({ contract }) => {
   return (
     <div className="mt-4 text-center">
       {profile ? (
-        <div className="mb-3">
-          <img
-            className="mb-3"
-            style={{ width: "200px", height: "200px", borderRadius: "10px" }}
-            src={profile.avatar}
-          />
-          <h3 className="mb-3">{profile.username}</h3>
+        <div
+          className="mb-3"
+          style={{
+            backgroundColor: "#ffff",
+            borderRadius: "25px",
+            marginLeft: "360px",
+            marginRight: "30px",
+            marginTop: "120px",
+            height: "320px",
+            boxShadow: " 0px 0px 25px -10px rgba(0, 0, 0, 0.38)",
+          }}
+        >
+          <p
+            style={{
+              paddingRight: "950px",
+              paddingTop: "30px",
+              fontSize: "25px",
+            }}
+          >
+            Profile
+          </p>
+     
+            <img
+              className="mb-3"
+              style={{ width: "180px", height: "150", borderRadius: "50%" }}
+              src={profile.avatar}
+            />
+            <h3 className="mb-3">{profile.username}</h3>
+        
         </div>
       ) : (
-        <h4 className="mb-4">No NFT profile, please create one...</h4>
+        <h1>Please create a profile</h1>
       )}
-
-      <div className="row">
-        <main
-          role="main"
-          className="col-lg-12 mx-auto"
-          style={{ maxWidth: "1000px" }}
-        >
-          <div className="content mx-auto">
-            <Row className="g-4">
-              <Form.Control
-                type="file"
-                required
-                name="file"
-                onChange={uploadToIPFS}
-              />
-              <Form.Control
-                onChange={(e) => setUsername(e.target.value)}
-                size="lg"
-                required
-                type="text"
-                placeholder="Username"
-              />
-              <div className="d-grid px-0" style={{borderRadius:"10px" }}>
-                <Button
-                  onClick={mintProfile}
-                  variant="primary"
-                  size="lg"
-                  style={{ backgroundColor: "#3808f5", borderRadius:"10px" }}
+      <div style={{ width: "900px", marginLeft: "300px" }}>
+        <MDBContainer fluid>
+          <MDBCard
+            className="text-black m-5"
+            style={{
+              borderRadius: "25px",
+              width: "1100px",
+              height: "550px",
+              margin: "0px",
+              backgroundColor: "#fff",
+              boxShadow: " 0px 0px 25px -10px rgba(0, 0, 0, 0.38)",
+            }}
+          >
+            <MDBCardBody>
+              <MDBRow>
+                <MDBCol
+                  md="10"
+                  lg="6"
+                  className="order-2 order-lg-1 d-flex flex-column align-items-center"
                 >
-                  Mint NFT Profile
-                </Button>
-              </div>
-            </Row>
-          </div>
-        </main>
+                  <p
+                    classNAme="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4"
+                    style={{ fontSize: "40px" }}
+                  >
+                    Create Profile
+                  </p>
+                  <div className="row">
+                    <main role="main" className="col-lg-12 mx-auto">
+                      <p style={{ paddingRight: "400px" }}>User name:</p>
+
+                      <div className="d-flex flex-row align-items-center mb-4">
+                        <MDBInput
+                          id="form2"
+                          type="text"
+                          onChange={(e) => setUsername(e.target.value)}
+                          style={{ width: "400px", margin: "0px" }}
+                        />
+                      </div>
+                      <p style={{ paddingRight: "380px" }}>Profile picture:</p>
+
+                      <div className="d-flex flex-row align-items-center mb-4">
+                        <MDBInput
+                          id="form2"
+                          type="file"
+                          style={{ width: "400px", margin: "0px" }}
+                          onChange={uploadToIPFS}
+                        />
+                      </div>
+
+                      <div
+                        className="d-grid px-0"
+                        style={{ borderRadius: "10px" }}
+                      >
+                        <Button
+                          onClick={mintProfile}
+                          variant="primary"
+                          size="lg"
+                          style={{
+                            backgroundColor: "#3808f5",
+                            borderRadius: "10px",
+                            width: "400px",
+                            padding: "0px",
+                            margin: "0px",
+                          }}
+                        >
+                          Mint NFT Profile
+                        </Button>
+                      </div>
+                    </main>
+                  </div>
+                </MDBCol>
+
+                <MDBCol
+                  md="10"
+                  lg="6"
+                  className="order-1 order-lg-2 d-flex align-items-center"
+                >
+                  <MDBCardImage
+                    src="https://img.freepik.com/premium-vector/powerful-ai-technology-background_42859-383.jpg?w=740"
+                    fluid
+                    style={{
+                      width: "550px",
+                      height: "450px",
+                      borderRadius: "30px",
+                    }}
+                  />
+                </MDBCol>
+              </MDBRow>
+            </MDBCardBody>
+          </MDBCard>
+        </MDBContainer>
       </div>
+
       <div className="px-5 container">
         <Row xs={1} md={2} lg={4} className="g-4 py-5">
           {nfts.map((nft, idx) => {
             if (nft.id === profile.id) return;
             return (
               <Col key={idx} className="overflow-hidden">
-                <Card style={{ width: "220px",
-                height: "345px",
-                borderRadius: "10px",}}>
+                <Card
+                  style={{
+                    width: "220px",
+                    height: "345px",
+                    borderRadius: "10px",
+                  }}
+                >
                   <Card.Img
                     variant="top"
                     src={nft.avatar}
