@@ -1,2 +1,2 @@
-export const apiKey = 'f7028076af0d9d66f052';
-export const apiSecret = '065ff087adce62b2203cb153a415e9ffa85b9b669116dae36f771c90aca90cbb';
+export const apiKey = '79f23a67b9db7c399731';
+export const apiSecret = '6218cb2d799a7c5e3d70539ac750db2651b5fa80f0ab73fb99d01d55bcdd9ac6';

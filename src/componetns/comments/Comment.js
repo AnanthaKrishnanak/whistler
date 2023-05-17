@@ -1,23 +1,9 @@
 import "./Comment.css";
 import { useState, useEffect } from "react";
 
-const Comments = (contract) => {
-  //Temporary
-  const [comment, setComment] = useState("");
+import React from "react";
 
-  const loadComments = async () => {
-    // Get user's address
-    console.log('sdddddddddddddd')
-    let res = await contract.viewComment();
-    console.log(res)
-
-    // Fetch metadata of each post and add that to post object.
-  };
-  const uploadComment = async () => {
-    await (await contract.postComment("test", '0x2546bcd3c84621e976d8185a91a922ae77ecec30')).wait();
-    loadComments();
-  };
-
+function Comment({ params }) {
   const comments = [
     {
       id: 1,
@@ -36,6 +22,20 @@ const Comments = (contract) => {
         "https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinysrgb&w=1600",
     },
   ];
+  const [comment, setComment] = useState("");
+
+  const loadComments = async () => {
+    console.log('eee')
+    let res = await params.contract.viewComment(params.postid);
+    console.log(res)
+  };
+  const uploadComment = async () => {
+    console.log(comment);
+    await (
+      await params.contract.postComment(params.postid, comment, params.userid)
+    ).wait();
+    loadComments();
+  };
 
   return (
     <div className="comments">
@@ -59,6 +59,6 @@ const Comments = (contract) => {
       ))}
     </div>
   );
-};
+}
 
-export default Comments;
+export default Comment;

@@ -15,22 +15,8 @@ const Home = ({ contract }) => {
   const [loading, setLoading] = useState(true);
   const [url, setUrl] = useState("");
   const [commentOpen, setCommentOpen] = useState(false);
-  const uploadComment = async () => {
-    console.log('sssssss')
-    await (await contract.postComment(0,"test",'0x2546bcd3c84621e976d8185a91a922ae77ecec30')).wait();
-    console.log('sssssss')
 
-  };
-  const loadComments = async () => {
-    // Get user's address
-    console.log('sdddddddddddddd')
-    let r = await contract.viewCount(0).wait();
-    console.log(r)
-    let res = await contract.viewComment(0,0);
-    console.log(res)
 
-    // Fetch metadata of each post and add that to post object.
-  };
 
   const loadPosts = async () => {
     // Get user's address
@@ -211,23 +197,20 @@ const Home = ({ contract }) => {
               <div className="bottom">
                 <div className="left">
                   <input type="file" id="file" style={{ display: "none" }} />
-                  <label htmlFor="file" onChange={uploadToIPFS}>
-                    <div className="item">
-                      <img src={camera} alt="" className="icon" />
-                      <Form.Control
-                        type="file"
-                        required
-                        name="file"
-                        onChange={uploadToIPFS}
-                        style={{ textDecoration: "none" }}
-                      />
-                    </div>
-                  </label>
+                  <div className="item">
+                    <img src={camera} alt="" className="icon" />
+                    <Form.Control
+                      type="file"
+                      required
+                      name="file"
+                      onChange={uploadToIPFS}
+                      style={{ textDecoration: "none" }}
+                    />
+                  </div>
                 </div>
                 <div className="right">
                   <button onClick={uploadPost}>Share</button>
                 </div>
-                <button onClick={loadComments}>test</button>
               </div>
             </div>
           </div>
@@ -322,7 +305,15 @@ const Home = ({ contract }) => {
                       </div>
                     )}
                   </div>
-                  {!commentOpen ? null : <Comments contract={contract} ></Comments>}
+                  {!commentOpen ? null : (
+                    <Comments
+                      params={{
+                        contract: contract,
+                        postid: key,
+                        userid: post.author.address,
+                      }}
+                    ></Comments>
+                  )}
                 </Card>
               </div>
             );

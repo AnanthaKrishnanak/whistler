@@ -11,6 +11,7 @@ pragma solidity ^0.8.0;
 import "hardhat/console.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
 
 contract Decentratwitter is ERC721URIStorage {
     mapping(uint256 => uint256) commentCount;
@@ -20,8 +21,9 @@ contract Decentratwitter is ERC721URIStorage {
     }
     mapping(uint256 => comment[]) comments;
 
-    function viewCount(uint256 _postId) public view returns (uint256) {
-        return commentCount[_postId];
+    function viewCount(uint256 _postId) public view returns (string memory) {
+        string memory str = Strings.toString(commentCount[_postId]);
+        return str;
     }
 
     function postComment(
@@ -37,11 +39,10 @@ contract Decentratwitter is ERC721URIStorage {
     }
 
     function viewComment(
-        uint256 _postId,
-        uint256 _commentNumber
-    ) public view returns (comment memory) {
+        uint256 _postId
+    ) public view returns (comment[] memory) {
         comment[] memory commentSet = comments[_postId];
-        return commentSet[_commentNumber];
+        return commentSet;
     }
 
     uint256 public tokenCount;
