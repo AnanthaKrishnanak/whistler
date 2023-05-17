@@ -1,38 +1,47 @@
 import "./Comment.css";
 import { useState, useEffect } from "react";
-
+import im from "../../assets/account.png";
 import React from "react";
 
 function Comment({ params }) {
-  const comments = [
-    {
-      id: 1,
-      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem nequeaspernatur ullam aperiam. Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem nequeaspernatur ullam aperiam",
-      name: "John Doe",
-      userId: 1,
-      profilePicture:
-        "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    },
-    {
-      id: 2,
-      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem nequeaspernatur ullam aperiam",
-      name: "Jane Doe",
-      userId: 2,
-      profilePicture:
-        "https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    },
-  ];
   const [comment, setComment] = useState("");
-
+  const [comments, setComments] = useState([]);
   const loadComments = async () => {
-    console.log('eee')
+    console.log("eee");
     let res = await params.contract.viewComment(params.postid);
-    console.log(res)
+    var commentsArray = [];
+    res.map(mapComment);
+
+    function mapComment(e) {
+      const obj = JSON.parse(e.commentContent);
+
+      commentsArray.push({
+        id: e[0],
+        desc: obj.content,
+        name: e[1],
+        time: obj.time,
+      });
+    }
+    setComments(commentsArray);
   };
+  loadComments();
   const uploadComment = async () => {
-    console.log(comment);
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, "0");
+    var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+    var yyyy = today.getFullYear();
+
+    today = mm + "/" + dd + "/" + yyyy;
+
+    var data = { content: comment, time: today };
+    const commentData = JSON.stringify(data);
+
     await (
-      await params.contract.postComment(params.postid, comment, params.userid)
+      await params.contract.postComment(
+        params.postid,
+        commentData,
+        params.userid
+      )
     ).wait();
     loadComments();
   };
@@ -42,19 +51,25 @@ function Comment({ params }) {
       <div className="write">
         <input
           type="text"
-          placeholder="write a comment"
+          placeholder="Write a comment"
           onChange={(e) => setComment(e.target.value)}
         />
-        <button onClick={uploadComment}>Send</button>
+        <button onClick={uploadComment}    style={{
+          backgroundColor: "#000",
+          width: "100px",
+          borderRadius: "5px",
+         }}>
+          Send
+        </button>
       </div>
       {comments.map((comment) => (
         <div className="comment">
-          <img className="im" src={comment.profilePicture} alt="" />
-          <div className="info">
+          <img className="im" src={im} alt="" />
+          <div className="inf">
             <span>{comment.name}</span>
             <p>{comment.desc}</p>
           </div>
-          <span className="date">1 hour ago</span>
+          <span className="date">posted on {comment.time}</span>
         </div>
       ))}
     </div>

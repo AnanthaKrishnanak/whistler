@@ -11,8 +11,8 @@ import Onboarding from "./componetns/Onboarding";
 import "./App.css";
 import Report from "./container/Report";
 import DashBoard from "./container/DashBoard";
-import Details from "./componetns/Details";
 import Sidebar from "./componetns/Sidebar";
+import About from "./componetns/About";
 function App() {
   const [loading, setLoading] = useState(true);
   const [account, setAccount] = useState(null);
@@ -50,70 +50,56 @@ function App() {
   };
   return (
     <BrowserRouter>
-      <Navbar
-        expand="lg"
-        className="nav"
-        float="top"
-        style={{
-          padding: "0px",
-          marginLeft: "400px",
-          position: "fixed",
-          backgroundColor: "#fff",
-          marginTop: "10px",
-          marginRight: "100px",
-          borderRadius: "10px",
-          width: "1050px",
-        }}
-      >
-        <Container style={{ padding: "0px", margin: "0px" }}>
-          <img src={logo} alt="" style={{ paddingLeft: "20px" }} />
-          <h3 style={{ paddingLeft: "20px", color: "#3808f5" }}>
-            WISTLEBLOWER
-          </h3>
+      <Navbar expand="lg" className="nav" float="top">
+        <img src={logo} alt="" style={{ paddingLeft: "20px" }} />
 
-          <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav>
-              {account ? (
-                <Nav.Link
-                  href={`https://etherscan.io/address/${account}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="button nav-button btn-sm mx-4"
-                
-                  style={{ paddingLeft: "400px" ,width:"200px", backgroundColor:"transparent"}}
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav>
+            {account ? (
+              <Nav.Link
+                href={`https://etherscan.io/address/${account}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="button nav-button btn-sm mx-4"
+                style={{
+                  width: "250px",
+                  backgroundColor: "transparent",
+                }}
+              >
+                <Button
+                  variant="outline-light"
+                  style={{
+                    padding: "0px",
+                    margin: "0",
+                    borderRadius: "10px",
+                    backgroundColor: "black",
+                    width: "200px",
+                    marginLeft: "75vw",
+                  }}
+                  className="btn"
                 >
-                  <Button
-                    variant="outline-light"
-                    style={{
-                      padding: "0px",
-                      margin: "0px",
-                      borderRadius: "10px",
-                      backgroundColor: "#3808f5",
-                      width:"200px"
-                    }}
-                  >
-                    {account.slice(0, 5) + "..." + account.slice(38, 42)}
-                  </Button>
-                </Nav.Link>
-              ) : (
-                <div style={{ paddingLeft: "400px" }}>
-                  <Button
-                    onClick={web3Handler}
-                    variant="outline-light"
-                    style={{
-                      padding: "0px",
-                      margin: "0px",
-                      borderRadius: "10px",
-                      backgroundColor: "#3808f5",
-                    }}
-                  >
-                    Connect Wallet
-                  </Button>
-                </div>
-              )}
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
+                  {account.slice(0, 5) + "..." + account.slice(38, 42)}
+                </Button>
+              </Nav.Link>
+            ) : (
+              <div style={{ paddingLeft: "400px" }}>
+                <Button
+                  onClick={web3Handler}
+                  variant="outline-light"
+                  style={{
+                    padding: "0px",
+                    margin: "0px",
+                    borderRadius: "10px",
+                    backgroundColor: "#000",
+                  }}
+                  className="btn"
+                >
+                  Connect Wallet
+                </Button>
+              </div>
+            )}
+          </Nav>
+        </Navbar.Collapse>
       </Navbar>
       <Sidebar>
         {loading ? (
@@ -133,7 +119,6 @@ function App() {
             <p className="mx-3 my-0" style={{ color: "#fff" }}>
               Awaiting Metamask Connection...
             </p>
-           
           </div>
         ) : (
           <Routes>
@@ -145,6 +130,7 @@ function App() {
               element={<DashBoard contract={contract} />}
             />
             <Route path="/profile" element={<Profile contract={contract} />} />
+            <Route path="/about" element={<About />} />
           </Routes>
         )}
       </Sidebar>

@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 
 import { NavLink } from "react-router-dom";
-import {
-  FaHome,
-  FaRegCommentAlt,
-  FaRegEdit,
-  FaRegClone,
-  FaRegUser,
-} from "react-icons/fa";
+import '../index.css'
 
+import {
+  HiOutlineHome,
+  HiOutlineInformationCircle,
+  HiOutlineUser,
+  HiOutlineSquares2X2,
+  HiOutlinePaperAirplane,HiOutlineDocumentArrowUp
+} from "react-icons/hi2";
 const Sidebar = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
@@ -16,34 +17,39 @@ const Sidebar = ({ children }) => {
     {
       path: "/",
       name: "Home",
-      icon: <FaHome />,
+      icon: <HiOutlineHome />,
     },
     {
       path: "/post",
       name: "Post",
-      icon: <FaRegCommentAlt />,
+      icon: <HiOutlinePaperAirplane />,
     },
     {
       path: "/report",
       name: "Report",
-      icon: <FaRegEdit />,
+      icon: <HiOutlineDocumentArrowUp />,
     },
     {
       path: "/dashboard",
       name: "Dashboard",
-      icon: <FaRegClone />,
+      icon: <HiOutlineSquares2X2 />,
     },
     {
       path: "/profile",
       name: "Profile",
-      icon: <FaRegUser />,
+      icon: <HiOutlineUser />,
+    },
+    {
+      path: "/about",
+      name: "About",
+      icon: <HiOutlineInformationCircle />,
     },
   ];
   return (
     <div className="page">
-      <div className="sidebar" style={{ backgroundColor: "#fff", }}>
+      <div className="sidebar" style={{ backgroundColor: "#fff" }}>
         <div className="top_section">
-          <h3 style={{paddingTop:"20px"}}>WHISTLER</h3>
+          <h3 style={{ paddingTop: "20px" }} className="logo">WHISTLER</h3>
           <hr className="line"></hr>
         </div>
         {menuItem.map((item, index) => (
@@ -57,7 +63,6 @@ const Sidebar = ({ children }) => {
             <div className="link_text">{item.name}</div>
           </NavLink>
         ))}
-     
       </div>
       <main>{children}</main>
     </div>

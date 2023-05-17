@@ -6,8 +6,8 @@ class ThreeScene extends Component {
     this.scene = new THREE.Scene();
 
     this.renderer = new THREE.WebGL1Renderer();
-    this.renderer.setSize(700, 600);
-
+    this.renderer.setSize(500, 600);
+    this.renderer.setClearColor( 0xffffff );
     this.mount.appendChild(this.renderer.domElement);
     this.camera = new THREE.PerspectiveCamera(45, 800 / 600);
     this.camera.position.z = 20;

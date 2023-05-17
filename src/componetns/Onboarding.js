@@ -1,6 +1,6 @@
 import React from "react";
 
-import url from "../assets/2.png";
+import url from "../assets/2.jpg";
 
 function Onboarding() {
   return (
@@ -14,7 +14,7 @@ function Onboarding() {
           <img
             src={url}
             className="hero--img"
-            style={{ width: "500px", zIndex: "-1" }}
+            style={{ width: "500px", zIndex: "-1", color:"#fff" }}
           ></img>
         </div>
       </div>

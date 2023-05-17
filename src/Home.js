@@ -1,12 +1,20 @@
 import { useState, useEffect } from "react";
 import { ethers } from "ethers";
-import { Row, Form, Button, Card, ListGroup } from "react-bootstrap";
+import { Row, Form, Button, Card, ListGroup, Spinner } from "react-bootstrap";
 import axios from "axios";
 import NoPost from "./componetns/NoPost";
 import { apiKey, apiSecret } from "./constants/constants";
 import { FaRegThumbsUp, FaRegCommentAlt } from "react-icons/fa";
 import Comments from "./componetns/comments/Comment";
 import camera from "./assets/image.png";
+import {
+  HiOutlineHome,
+  HiOutlineInformationCircle,
+  HiOutlineUser,
+  HiOutlineSquares2X2,
+  HiOutlinePaperAirplane,
+  HiOutlineDocumentArrowUp,
+} from "react-icons/hi2";
 const Home = ({ contract }) => {
   const [posts, setPosts] = useState("");
   const [hasProfile, setHasProfile] = useState(false);
@@ -15,8 +23,6 @@ const Home = ({ contract }) => {
   const [loading, setLoading] = useState(true);
   const [url, setUrl] = useState("");
   const [commentOpen, setCommentOpen] = useState(false);
-
-
 
   const loadPosts = async () => {
     // Get user's address
@@ -175,8 +181,8 @@ const Home = ({ contract }) => {
   if (loading)
     return (
       <div className="text-center">
-        <main style={{ marginTop: "400px", marginLeft: "400px" }}>
-          <h2>Loading...</h2>
+        <main style={{ marginTop: "300px", marginLeft: "100px" }}>
+          <h3>Loading..........</h3>
         </main>
       </div>
     );
@@ -184,7 +190,7 @@ const Home = ({ contract }) => {
     <div className="container-fluid mt-5" style={{ marginLeft: "100px" }}>
       {hasProfile ? (
         <div className="row">
-          <div className="share" style={{ width: "750px", marginTop: "100px" }}>
+          <div className="share" style={{ width: "750px" }}>
             <div className="container">
               <div className="top">
                 <input
@@ -209,7 +215,16 @@ const Home = ({ contract }) => {
                   </div>
                 </div>
                 <div className="right">
-                  <button onClick={uploadPost}>Share</button>
+                  <button
+                    onClick={uploadPost}
+                    style={{
+                      backgroundColor: "#000",
+                      width: "100px",
+                      borderRadius: "5px",
+                    }}
+                  >
+                    Post
+                  </button>
                 </div>
               </div>
             </div>
@@ -232,7 +247,7 @@ const Home = ({ contract }) => {
                   border="primary"
                   style={{
                     width: "750px",
-                    backgroundColor: "#fffff2",
+                    backgroundColor: "#fffff",
                     border: "none",
                     borderRadius: "20px",
                     height: "100%",

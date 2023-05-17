@@ -1,4 +1,4 @@
-import "./post.scss";
+
 import {
   FaHome,
   FaRegCommentAlt,

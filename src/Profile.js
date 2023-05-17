@@ -8,15 +8,13 @@ import {
   MDBCardBody,
   MDBCardImage,
   MDBInput,
-  MDBIcon,
-  MDBCheckbox,
 } from "mdb-react-ui-kit";
+import url from "./assets/3.png";
 
 import axios from "axios";
 import { Row, Form, Button, Card, ListGroup, Col } from "react-bootstrap";
 import { apiKey, apiSecret } from "./constants/constants";
 import "./index.css";
-import image from "./assets/profile.jpg";
 
 const App = ({ contract }) => {
   const [profile, setProfile] = useState("");
@@ -147,117 +145,124 @@ const App = ({ contract }) => {
   if (loading)
     return (
       <div className="text-center">
-        <main style={{ padding: "1rem 0" }}>
-          <h2>Loading...</h2>
-        </main>
-      </div>
+      <main style={{ marginTop: "300px", marginLeft: "100px" }}>
+        <h3>Loading..........</h3>
+      </main>
+    </div>
     );
   return (
-    <div className="mt-4 text-center">
+    <div className="mt-4">
       {profile ? (
         <div
           className="mb-3"
           style={{
-            backgroundColor: "#ffff",
+            backgroundColor: "#000",
             borderRadius: "25px",
             marginLeft: "360px",
             marginRight: "30px",
-            marginTop: "120px",
-            height: "320px",
+            marginTop: "50px",
+            height: "250",
+            paddingLeft: "20px",
             boxShadow: " 0px 0px 25px -10px rgba(0, 0, 0, 0.38)",
+            position: "relative",
           }}
         >
           <p
             style={{
-              paddingRight: "950px",
               paddingTop: "30px",
               fontSize: "25px",
+              color: "#fff",
             }}
           >
             Profile
           </p>
-     
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              paddingTop: "30px",
+              paddingLeft: "50px", boxShadow: " 0px 0px 25px -10px rgba(0, 0, 0, 0.38)",
+            }}
+          >
             <img
               className="mb-3"
-              style={{ width: "180px", height: "150", borderRadius: "50%" }}
+              style={{
+                width: "100px",
+                height: "100px",
+                borderRadius: "50%",
+                backgroundColor: "#ffff",
+                position: "absolute",
+                marginTop: "50px",
+                marginRight: "30px",
+              }}
               src={profile.avatar}
             />
-            <h3 className="mb-3">{profile.username}</h3>
-        
+            <h3
+              style={{ color: "#ffff", marginLeft: "120px", fontSize: "25px" }}
+            >
+              {profile.username}
+            </h3>
+          </div>
         </div>
       ) : (
-        <h1>Please create a profile</h1>
+        <div></div>
       )}
-      <div style={{ width: "900px", marginLeft: "300px" }}>
+      <div style={{ width: "900px", marginLeft: "300px", paddingTop: "20px" }}>
         <MDBContainer fluid>
           <MDBCard
             className="text-black m-5"
             style={{
               borderRadius: "25px",
               width: "1100px",
-              height: "550px",
+              height: "500px",
               margin: "0px",
+              padding: "0px",
               backgroundColor: "#fff",
               boxShadow: " 0px 0px 25px -10px rgba(0, 0, 0, 0.38)",
             }}
           >
             <MDBCardBody>
-              <MDBRow>
-                <MDBCol
-                  md="10"
-                  lg="6"
-                  className="order-2 order-lg-1 d-flex flex-column align-items-center"
-                >
-                  <p
-                    classNAme="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4"
-                    style={{ fontSize: "40px" }}
-                  >
-                    Create Profile
-                  </p>
-                  <div className="row">
-                    <main role="main" className="col-lg-12 mx-auto">
-                      <p style={{ paddingRight: "400px" }}>User name:</p>
+              <MDBRow style={{ padding: "0px", paddingLeft: "30px" }}>
+                <MDBCol md="10" lg="6" className="">
+                  <p style={{ fontSize: "40px" }}>Create Profile</p>
 
-                      <div className="d-flex flex-row align-items-center mb-4">
-                        <MDBInput
-                          id="form2"
-                          type="text"
-                          onChange={(e) => setUsername(e.target.value)}
-                          style={{ width: "400px", margin: "0px" }}
-                        />
-                      </div>
-                      <p style={{ paddingRight: "380px" }}>Profile picture:</p>
+                  <p>User name:</p>
 
-                      <div className="d-flex flex-row align-items-center mb-4">
-                        <MDBInput
-                          id="form2"
-                          type="file"
-                          style={{ width: "400px", margin: "0px" }}
-                          onChange={uploadToIPFS}
-                        />
-                      </div>
-
-                      <div
-                        className="d-grid px-0"
-                        style={{ borderRadius: "10px" }}
-                      >
-                        <Button
-                          onClick={mintProfile}
-                          variant="primary"
-                          size="lg"
-                          style={{
-                            backgroundColor: "#3808f5",
-                            borderRadius: "10px",
-                            width: "400px",
-                            padding: "0px",
-                            margin: "0px",
-                          }}
-                        >
-                          Mint NFT Profile
-                        </Button>
-                      </div>
-                    </main>
+                  <div className="d-flex flex-row align-items-center mb-4">
+                    <MDBInput
+                      id="form2"
+                      type="text"
+                      onChange={(e) => setUsername(e.target.value)}
+                      style={{ width: "400px", margin: "0px" }}
+                    />
                   </div>
+                  <p style={{ paddingRight: "380px" }}>Profile picture:</p>
+
+                  <div className="d-flex flex-row align-items-center mb-4">
+                    <MDBInput
+                      id="form2"
+                      type="file"
+                      style={{ width: "400px", margin: "0px" }}
+                      onChange={uploadToIPFS}
+                    />
+                  </div>
+
+                  <Button
+                    onClick={mintProfile}
+                    style={{
+                      backgroundColor: "black",
+                      borderRadius: "10px",
+                      width: "400px",
+                      padding: "0px",
+                      color: "#ffff",
+                      margin: "0px",
+                      fontWeight:"bold",
+                      border:"none",
+                      marginTop:'20px'
+                    }}
+                  >
+                    Mint NFT Profile
+                  </Button>
                 </MDBCol>
 
                 <MDBCol
@@ -265,15 +270,24 @@ const App = ({ contract }) => {
                   lg="6"
                   className="order-1 order-lg-2 d-flex align-items-center"
                 >
-                  <MDBCardImage
-                    src="https://img.freepik.com/premium-vector/powerful-ai-technology-background_42859-383.jpg?w=740"
-                    fluid
+                  <div
                     style={{
-                      width: "550px",
+                      width: "600px",
                       height: "450px",
                       borderRadius: "30px",
+                      backgroundColor: "#000",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
                     }}
-                  />
+                  >
+                    <img
+                      src={url}
+                      style={{
+                        color: "#fff",
+                      }}
+                    ></img>
+                  </div>
                 </MDBCol>
               </MDBRow>
             </MDBCardBody>

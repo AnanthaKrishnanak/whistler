@@ -114,9 +114,7 @@ function Report({ contract }) {
     );
   return (
     <div className=" report">
-      <main
-        style={{ width: "800px",  }}
-      >
+      <main style={{ width: "800px" }}>
         {" "}
         <h1 style={{ marginBottom: "30px" }}>Want to speak up for an issue?</h1>
         <div className="content mx-auto">
@@ -226,19 +224,17 @@ function Report({ contract }) {
               style={{ marginBottom: "50px" }}
               onChange={uploadToIPFS}
             />
-           
-              <Button
-                onClick={uploadReportToIPFS}
-                variant="primary"
-                size="lg"
-                style={{
-                  backgroundColor: "#3808f5",
-                  borderRadius: "10px",
-                }}
-              >
-                Report issue
-              </Button>
 
+            <Button
+              onClick={uploadReportToIPFS}
+              style={{
+                backgroundColor: "black",
+                border:"none",
+                borderRadius: "10px",
+              }}
+            >
+              Report issue
+            </Button>
           </Row>
         </div>
       </main>

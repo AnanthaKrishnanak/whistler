@@ -21,7 +21,7 @@ input {
 
 button {
   border: none;
-  background-color: #5271ff;
+  background-color: #ffff;
   color: white;
   padding: 10px;
   cursor: pointer;
@@ -36,7 +36,7 @@ button {
   background-color: #fff;
   height: 100px;
 }
-.info {
+.inf {
   flex: 5;
   display: flex;
   flex-direction: column;
@@ -49,6 +49,7 @@ span {
 }
 p {
   color: themed("textColorSoft");
+  text-overflow: ellipsis;
 }
 .date {
   flex: 1;
