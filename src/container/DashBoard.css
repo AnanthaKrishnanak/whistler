@@ -10,11 +10,11 @@
   margin-left: 400px;
   background-color: #fff;
   border-radius: 25px;
-  margin-top: 100px;
+  margin-top: 50px;
   margin-right: 20px;   box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.38)
 }
 .dash button {
-  background-color: #3808f5;
+  background-color:black;
   color: #fff;
   border: none;
   border-radius: 2px;

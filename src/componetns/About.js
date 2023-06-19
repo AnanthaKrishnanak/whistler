@@ -1,8 +1,9 @@
 import React from 'react'
+import Info from './Info'
 
 function About() {
   return (
-    <div>About</div>
+    <div><Info/></div>
   )
 }
 

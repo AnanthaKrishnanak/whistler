@@ -7,14 +7,9 @@ import { apiKey, apiSecret } from "./constants/constants";
 import { FaRegThumbsUp, FaRegCommentAlt } from "react-icons/fa";
 import Comments from "./componetns/comments/Comment";
 import camera from "./assets/image.png";
-import {
-  HiOutlineHome,
-  HiOutlineInformationCircle,
-  HiOutlineUser,
-  HiOutlineSquares2X2,
-  HiOutlinePaperAirplane,
-  HiOutlineDocumentArrowUp,
-} from "react-icons/hi2";
+import { BallTriangle } from "react-loader-spinner";
+import { motion } from "framer-motion";
+
 const Home = ({ contract }) => {
   const [posts, setPosts] = useState("");
   const [hasProfile, setHasProfile] = useState(false);
@@ -180,14 +175,31 @@ const Home = ({ contract }) => {
   };
   if (loading)
     return (
-      <div className="text-center">
-        <main style={{ marginTop: "300px", marginLeft: "100px" }}>
-          <h3>Loading..........</h3>
-        </main>
+      <div
+        style={{
+          marginLeft: "850px",
+          marginTop: "300px",
+          height: "100vh",
+          backgroundColor: "#ffff",
+        }}
+      >
+        <BallTriangle
+          height={100}
+          width={100}
+          radius={5}
+          color="#000"
+          ariaLabel="ball-triangle-loading"
+          wrapperClass={{}}
+          wrapperStyle=""
+          visible={true}
+        />
       </div>
     );
   return (
-    <div className="container-fluid mt-5" style={{ marginLeft: "100px" }}>
+    <div
+    
+      style={{width: "90vw" }}
+    >
       {hasProfile ? (
         <div className="row">
           <div className="share" style={{ width: "750px" }}>
@@ -238,99 +250,104 @@ const Home = ({ contract }) => {
         posts.map((post, key) => {
           if (post.content != undefined) {
             return (
-              <div
-                key={key}
-                className="col-lg-12 my-3 mx-auto"
-                style={{ width: "700px", paddingTop: "50px" }}
+              <motion.div
+                whileInView={{ x: [-100, 0], opacity: [0, 1] }}
+                transition={{ duration: 1, ease: "easeInOut" }}
               >
-                <Card
-                  border="primary"
-                  style={{
-                    width: "750px",
-                    backgroundColor: "#fffff",
-                    border: "none",
-                    borderRadius: "20px",
-                    height: "100%",
-                    padding: "20px",
-                  }}
+                <div
+                  key={key}
+                  className="col-lg-12 my-3 mx-auto"
+                  style={{ width: "700px", paddingTop: "50px",  }}
                 >
-                  <div
+                  <Card
+                    border="primary"
                     style={{
-                      backgroundColor: "transparent",
-                      width: "700px",
-                      display: "flex",
-                      alignItems: "center",
+                      width: "750px",
+                      backgroundColor: "#fffff",
+                      border: "none",
+                      borderRadius: "20px",
+                      height: "100%",
+                      padding: "20px",marginLeft:'60px'
                     }}
                   >
-                    <img
-                      className="mr-2 profile-image"
-                      width="100px"
-                      height="100px"
-                      style={{ borderRadius: "50%" }}
-                      src={post.author.avatar}
-                    />
-                    <div className="details">
-                      <span className="name"> {post.author.username}</span>
-                      <span className="date"> {post.author.address}</span>
-                    </div>
-                  </div>
-                  <Card.Body color="secondary">
-                    <Card.Text className="post__content font">
-                      {post.content}
-                    </Card.Text>
-                    <img className="post-image" src={post.url} />
-                  </Card.Body>
-                  <div
-                    className="list-group-item"
-                    style={{
-                      display: "flex",
-                      alignContent: "center",
-                      justifyContent: "space-evenly",
-                    }}
-                  >
-                    <div className="d-inline mt-auto float-start font">
-                      <FaRegThumbsUp></FaRegThumbsUp>
-                      <span
-                        style={{
-                          color: "#3808f5",
-                          fontWeight: "Bold",
-                          paddingLeft: "10px",
-                          marginRight: "20px",
-                        }}
-                      >
-                        {ethers.utils.formatEther(post.tipAmount)} ETH{" "}
-                      </span>
-                    </div>
-                    <div>
-                      <div
-                        className="item"
-                        onClick={() => setCommentOpen(!commentOpen)}
-                      >
-                        <FaRegCommentAlt />
-                        Comments
-                      </div>
-                    </div>
-                    {address === post.author.address || !hasProfile ? null : (
-                      <div
-                        className="d-inline float-end font"
-                        onClick={() => tip(post)}
-                      >
-                        <FaRegThumbsUp></FaRegThumbsUp>{" "}
-                        <span> post for 0.1 ETH</span>
-                      </div>
-                    )}
-                  </div>
-                  {!commentOpen ? null : (
-                    <Comments
-                      params={{
-                        contract: contract,
-                        postid: key,
-                        userid: post.author.address,
+                    <div
+                      style={{
+                        backgroundColor: "transparent",
+                        width: "700px",
+                        display: "flex",
+                        alignItems: "center",
                       }}
-                    ></Comments>
-                  )}
-                </Card>
-              </div>
+                    >
+                      <img
+                        className="mr-2 profile-image"
+                        width="100px"
+                        height="100px"
+                        style={{ borderRadius: "50%" }}
+                        src={post.author.avatar}
+                      />
+                      <div className="details">
+                        <span className="name"> {post.author.username}</span>
+                        <span className="date"> {post.author.address}</span>
+                      </div>
+                    </div>
+                    <Card.Body color="secondary">
+                      <Card.Text className="post__content font">
+                        {post.content}
+                      </Card.Text>
+                      <img className="post-image" src={post.url} />
+                    </Card.Body>
+                    <div
+                      className="list-group-item"
+                      style={{
+                        display: "flex",
+                        alignContent: "center",
+                        justifyContent: "space-evenly",
+                      }}
+                    >
+                      <div className="d-inline mt-auto float-start font">
+                        <FaRegThumbsUp></FaRegThumbsUp>
+                        <span
+                          style={{
+                            color: "#3808f5",
+                            fontWeight: "Bold",
+                            paddingLeft: "10px",
+                            marginRight: "20px",
+                          }}
+                        >
+                          {ethers.utils.formatEther(post.tipAmount)} ETH{" "}
+                        </span>
+                      </div>
+                      <div>
+                        <div
+                          className="item"
+                          onClick={() => setCommentOpen(!commentOpen)}
+                        >
+                          <FaRegCommentAlt />
+                          Comments
+                        </div>
+                      </div>
+                      {address === post.author.address || !hasProfile ? null : (
+                        <div
+                          className="d-inline float-end font"
+                          onClick={() => tip(post)}
+                        >
+                          <FaRegThumbsUp></FaRegThumbsUp>{" "}
+                          <span> post for 0.1 ETH</span>
+                        </div>
+                      )}
+                    </div>
+                    {!commentOpen ? null : (
+                      <Comments
+                        params={{
+                          contract: contract,
+                          postid: key,
+                          userid: post.author.address,
+                        }}
+                      ></Comments>
+                    )}
+                  </Card>
+                </div>
+              </motion.div>
             );
           }
         })

@@ -13,6 +13,8 @@ import Report from "./container/Report";
 import DashBoard from "./container/DashBoard";
 import Sidebar from "./componetns/Sidebar";
 import About from "./componetns/About";
+import { BallTriangle } from "react-loader-spinner";
+
 function App() {
   const [loading, setLoading] = useState(true);
   const [account, setAccount] = useState(null);
@@ -50,10 +52,30 @@ function App() {
   };
   return (
     <BrowserRouter>
-      <Navbar expand="lg" className="nav" float="top">
-        <img src={logo} alt="" style={{ paddingLeft: "20px" }} />
+      <Navbar
+        expand="lg"       
 
-        <Navbar.Collapse id="responsive-navbar-nav">
+        style={{
+          display: "flex",
+          backgroundColor:"#fff",
+          width:"100vw",
+          alignItems: "center",
+          justifyContent:'space-between'
+        }}
+        className="nav"
+        float="top"
+      >
+        <div style={{ display: "flex", alignItems: "center" }}>
+          {" "}
+          <img src={logo} alt="" style={{ paddingLeft: "20px" }} />
+          <h3
+            style={{ paddingTop: "20px", paddingLeft: "20px", color: "#000" }}
+            className="logo"
+          >
+            WHISTLER
+          </h3>
+        </div>
+        <Navbar.Collapse id="responsive-navbar-nav" style={{display: "flex",justifyContent:'right', paddingRight:"40px", margin:'0px'}}>
           <Nav>
             {account ? (
               <Nav.Link
@@ -74,7 +96,6 @@ function App() {
                     borderRadius: "10px",
                     backgroundColor: "black",
                     width: "200px",
-                    marginLeft: "75vw",
                   }}
                   className="btn"
                 >
@@ -82,7 +103,7 @@ function App() {
                 </Button>
               </Nav.Link>
             ) : (
-              <div style={{ paddingLeft: "400px" }}>
+              <div>
                 <Button
                   onClick={web3Handler}
                   variant="outline-light"
@@ -108,17 +129,21 @@ function App() {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
+
               height: "100vh",
-              backgroundColor: "#3808f5",
+              backgroundColor: "#ffff",
             }}
           >
-            <Spinner
-              animation="border"
-              style={{ display: "flex", color: "#fff" }}
+            <BallTriangle
+              height={100}
+              width={100}
+              radius={5}
+              color="#000"
+              ariaLabel="ball-triangle-loading"
+              wrapperClass={{}}
+              wrapperStyle=""
+              visible={true}
             />
-            <p className="mx-3 my-0" style={{ color: "#fff" }}>
-              Awaiting Metamask Connection...
-            </p>
           </div>
         ) : (
           <Routes>

@@ -3,7 +3,9 @@ import { Row, Form, Button, Card, ListGroup, Col } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { apiKey, apiSecret } from "../constants/constants";
 import "./Report.css";
-import axios from "axios";
+import axios from "axios";import { BallTriangle } from "react-loader-spinner";
+import { motion } from "framer-motion";
+
 function Report({ contract }) {
   const [organization, setOrganization] = useState("");
   const [category, setCategory] = useState("");
@@ -106,17 +108,38 @@ function Report({ contract }) {
   };
   if (loading)
     return (
-      <div className="text-center">
-        <main style={{ padding: "1rem 0" }}>
-          <h2>Loading...</h2>
-        </main>
-      </div>
+      <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        
+        height: "100vh",
+        backgroundColor: "#ffff",
+      }}
+    >
+      <BallTriangle
+        height={100}
+        width={100}
+        radius={5}
+        color="#000"
+        ariaLabel="ball-triangle-loading"
+        wrapperClass={{}}
+        wrapperStyle=""
+        visible={true}
+      />
+    </div>
     );
   return (
+    
     <div className=" report">
       <main style={{ width: "800px" }}>
         {" "}
         <h1 style={{ marginBottom: "30px" }}>Want to speak up for an issue?</h1>
+        <motion.div
+        whileInView={{ x: [-100, 0], opacity: [0, 1] }}
+        transition={{ duration: 1, ease: "easeInOut" }}
+      >
         <div className="content mx-auto">
           <Row className="g-4 form">
             <span>Organization</span>
@@ -237,6 +260,7 @@ function Report({ contract }) {
             </Button>
           </Row>
         </div>
+        </motion.div>
       </main>
     </div>
   );

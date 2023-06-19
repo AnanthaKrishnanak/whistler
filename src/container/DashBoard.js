@@ -112,7 +112,7 @@ const DashBoard = ({ contract }) => {
             width: "400px",
             height: "50px",
             borderRadius: "10px",
-            backgroundColor: "#3808f5",
+            backgroundColor: "#0000",
             border: "none",
             marginLeft: "440px",
             marginBottom: "100px",
@@ -125,7 +125,7 @@ const DashBoard = ({ contract }) => {
   }
   return (
     <div >
-      <h3 style={{ paddingLeft: "60px", paddingTop: "30px" }}>
+      <h3 style={{ paddingLeft: "400px", paddingTop: "30px" }}>
         Cases reported
       </h3>
       {posts.length > 0 ? (
@@ -151,7 +151,7 @@ const DashBoard = ({ contract }) => {
                     <td>{post.orgid}</td>
                     <td>{post.location}</td>
                     <td>
-                      <button onClick={() => setDetails(post)}>View</button>
+                      <button onClick={() => setDetails(post)} style={{backgroundColor:"black"}}>View</button>
                     </td>
                   </tr>
                 );
@@ -160,7 +160,7 @@ const DashBoard = ({ contract }) => {
           </table>
         </div>
       ) : (
-        <div className="text-center">No cases reported</div>
+        <div className="text-center"></div>
       )}
     </div>
   );

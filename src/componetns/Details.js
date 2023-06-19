@@ -2,7 +2,7 @@ import React from "react";
 import "./Details.css";
 export default function Details(params) {
   return (
-    <div className="container-box ">
+    <div className="container-box " style={{marginTop:"30px"}}>
       <h1>Incident Report</h1>
       <div className="box" style={{ width: "750px", paddingTop: "10px" }}>
         {" "}

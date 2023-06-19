@@ -19,11 +19,11 @@ export default function () {
     },
   ];
   return (
-    <div className="info">
+    <div className="info" style={{marginLeft:"300px"}}>
       <div className="info--title"><h1>What Whistler offers</h1></div>
       <div className="dynamic">
         {data.map(function (obj) {
-          return <Card title={obj.title} description={obj.description} />;
+          return <Card title={obj.title} description={obj.description}  />;
         })}
       </div>
     </div>

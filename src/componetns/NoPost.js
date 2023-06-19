@@ -1,8 +1,10 @@
 import React from "react";
 import url from "../assets/4.png";
+import { motion } from "framer-motion";
 
 function NoPost() {
   return (
+  
     <div
       className="onboarding"
       style={{
@@ -17,6 +19,7 @@ function NoPost() {
         <div className="text--area">
           <h1>You must own an NFT to continue</h1>
         </div>
+        
         <div className="j">
           {" "}
           <img
@@ -25,6 +28,7 @@ function NoPost() {
             style={{ width: "400px", zIndex: "-1", color: "#fff", paddingLeft:"30px" }}
           ></img>
         </div>
+        
       </div>
     </div>
   );

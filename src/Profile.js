@@ -10,11 +10,13 @@ import {
   MDBInput,
 } from "mdb-react-ui-kit";
 import url from "./assets/3.png";
+import { BallTriangle } from "react-loader-spinner";
 
 import axios from "axios";
 import { Row, Form, Button, Card, ListGroup, Col } from "react-bootstrap";
 import { apiKey, apiSecret } from "./constants/constants";
 import "./index.css";
+import { motion } from "framer-motion";
 
 const App = ({ contract }) => {
   const [profile, setProfile] = useState("");
@@ -97,10 +99,7 @@ const App = ({ contract }) => {
       const apiUrl = "https://api.pinata.cloud/pinning/pinJSONToIPFS";
       const headers = {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
-        "Access-Control-Allow-Headers":
-          "Origin, X-Requested-With, Content-Type, Accept",
+        
         pinata_api_key: apiKey,
         pinata_secret_api_key: apiSecret,
       };
@@ -144,13 +143,30 @@ const App = ({ contract }) => {
   });
   if (loading)
     return (
-      <div className="text-center">
-      <main style={{ marginTop: "300px", marginLeft: "100px" }}>
-        <h3>Loading..........</h3>
-      </main>
-    </div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+
+          height: "100vh",
+          backgroundColor: "#ffff",
+        }}
+      >
+        <BallTriangle
+          height={100}
+          width={100}
+          radius={5}
+          color="#000"
+          ariaLabel="ball-triangle-loading"
+          wrapperClass={{}}
+          wrapperStyle=""
+          visible={true}
+        />
+      </div>
     );
   return (
+    
     <div className="mt-4">
       {profile ? (
         <div
@@ -181,7 +197,8 @@ const App = ({ contract }) => {
               display: "flex",
               alignItems: "center",
               paddingTop: "30px",
-              paddingLeft: "50px", boxShadow: " 0px 0px 25px -10px rgba(0, 0, 0, 0.38)",
+              paddingLeft: "50px",
+              boxShadow: " 0px 0px 25px -10px rgba(0, 0, 0, 0.38)",
             }}
           >
             <img
@@ -207,95 +224,101 @@ const App = ({ contract }) => {
       ) : (
         <div></div>
       )}
-      <div style={{ width: "900px", marginLeft: "300px", paddingTop: "20px" }}>
-        <MDBContainer fluid>
-          <MDBCard
-            className="text-black m-5"
-            style={{
-              borderRadius: "25px",
-              width: "1100px",
-              height: "500px",
-              margin: "0px",
-              padding: "0px",
-              backgroundColor: "#fff",
-              boxShadow: " 0px 0px 25px -10px rgba(0, 0, 0, 0.38)",
-            }}
-          >
-            <MDBCardBody>
-              <MDBRow style={{ padding: "0px", paddingLeft: "30px" }}>
-                <MDBCol md="10" lg="6" className="">
-                  <p style={{ fontSize: "40px" }}>Create Profile</p>
+      <motion.div
+        whileInView={{ x: [-100, 0], opacity: [0, 1] }}
+        transition={{ duration: 1, ease: "easeInOut" }}
+      >
+        <div
+          style={{ width: "900px", marginLeft: "300px", paddingTop: "20px" }}
+        >
+          <MDBContainer fluid>
+            <MDBCard
+              className="text-black m-5"
+              style={{
+                borderRadius: "25px",
+                width: "1100px",
+                height: "500px",
+                margin: "0px",
+                padding: "0px",
+                backgroundColor: "#fff",
+                boxShadow: " 0px 0px 25px -10px rgba(0, 0, 0, 0.38)",
+              }}
+            >
+              <MDBCardBody>
+                <MDBRow style={{ padding: "0px", paddingLeft: "30px" }}>
+                  <MDBCol md="10" lg="6" className="">
+                    <p style={{ fontSize: "40px" }}>Create Profile</p>
 
-                  <p>User name:</p>
+                    <p>User name:</p>
 
-                  <div className="d-flex flex-row align-items-center mb-4">
-                    <MDBInput
-                      id="form2"
-                      type="text"
-                      onChange={(e) => setUsername(e.target.value)}
-                      style={{ width: "400px", margin: "0px" }}
-                    />
-                  </div>
-                  <p style={{ paddingRight: "380px" }}>Profile picture:</p>
+                    <div className="d-flex flex-row align-items-center mb-4">
+                      <MDBInput
+                        id="form2"
+                        type="text"
+                        onChange={(e) => setUsername(e.target.value)}
+                        style={{ width: "400px", margin: "0px" }}
+                      />
+                    </div>
+                    <p style={{ paddingRight: "380px" }}>Profile picture:</p>
 
-                  <div className="d-flex flex-row align-items-center mb-4">
-                    <MDBInput
-                      id="form2"
-                      type="file"
-                      style={{ width: "400px", margin: "0px" }}
-                      onChange={uploadToIPFS}
-                    />
-                  </div>
+                    <div className="d-flex flex-row align-items-center mb-4">
+                      <MDBInput
+                        id="form2"
+                        type="file"
+                        style={{ width: "400px", margin: "0px" }}
+                        onChange={uploadToIPFS}
+                      />
+                    </div>
 
-                  <Button
-                    onClick={mintProfile}
-                    style={{
-                      backgroundColor: "black",
-                      borderRadius: "10px",
-                      width: "400px",
-                      padding: "0px",
-                      color: "#ffff",
-                      margin: "0px",
-                      fontWeight:"bold",
-                      border:"none",
-                      marginTop:'20px'
-                    }}
-                  >
-                    Mint NFT Profile
-                  </Button>
-                </MDBCol>
-
-                <MDBCol
-                  md="10"
-                  lg="6"
-                  className="order-1 order-lg-2 d-flex align-items-center"
-                >
-                  <div
-                    style={{
-                      width: "600px",
-                      height: "450px",
-                      borderRadius: "30px",
-                      backgroundColor: "#000",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <img
-                      src={url}
+                    <Button
+                      onClick={mintProfile}
                       style={{
-                        color: "#fff",
+                        backgroundColor: "black",
+                        borderRadius: "10px",
+                        width: "400px",
+                        padding: "0px",
+                        color: "#ffff",
+                        margin: "0px",
+                        fontWeight: "bold",
+                        border: "none",
+                        marginTop: "20px",
                       }}
-                    ></img>
-                  </div>
-                </MDBCol>
-              </MDBRow>
-            </MDBCardBody>
-          </MDBCard>
-        </MDBContainer>
-      </div>
+                    >
+                      Mint NFT Profile
+                    </Button>
+                  </MDBCol>
 
-      <div className="px-5 container">
+                  <MDBCol
+                    md="10"
+                    lg="6"
+                    className="order-1 order-lg-2 d-flex align-items-center"
+                  >
+                    <div
+                      style={{
+                        width: "600px",
+                        height: "450px",
+                        borderRadius: "30px",
+                        backgroundColor: "#000",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <img
+                        src={url}
+                        style={{
+                          color: "#fff",
+                        }}
+                      ></img>
+                    </div>
+                  </MDBCol>
+                </MDBRow>
+              </MDBCardBody>
+            </MDBCard>
+          </MDBContainer>
+        </div>
+      </motion.div>
+      <div className="" style={{ marginLeft: "320px", paddingLeft: "40px" }}>
         <Row xs={1} md={2} lg={4} className="g-4 py-5">
           {nfts.map((nft, idx) => {
             if (nft.id === profile.id) return;
@@ -303,7 +326,7 @@ const App = ({ contract }) => {
               <Col key={idx} className="overflow-hidden">
                 <Card
                   style={{
-                    width: "220px",
+                    width: "250px",
                     height: "345px",
                     borderRadius: "10px",
                   }}
@@ -312,7 +335,7 @@ const App = ({ contract }) => {
                     variant="top"
                     src={nft.avatar}
                     style={{
-                      width: "200px",
+                      width: "180px",
                       height: "200px",
                       borderRadius: "10px",
                     }}
@@ -320,22 +343,19 @@ const App = ({ contract }) => {
                   <Card.Body color="secondary">
                     <Card.Title>{nft.username}</Card.Title>
                   </Card.Body>
-                  <Card.Footer>
-                    <div className="d-grid">
-                      <Button
-                        onClick={() => switchProfile(nft)}
-                        variant="primary"
-                        size="lg"
-                        style={{
-                          backgroundColor: "#3808f5",
-                          color: "#fff",
-                          borderRadius: "10px",
-                        }}
-                      >
-                        Set as Profile
-                      </Button>
-                    </div>
-                  </Card.Footer>
+
+                  <Button
+                    onClick={() => switchProfile(nft)}
+                    style={{
+                      backgroundColor: "black",
+                      color: "#fff",
+                      borderRadius: "10px",
+                      width: "100px",
+                      height: "40px",
+                    }}
+                  >
+                    Set as Profile
+                  </Button>
                 </Card>
               </Col>
             );
